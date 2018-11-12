@@ -6,15 +6,18 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_noti_setting.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import yj.song.notiaggregate.R
 import yj.song.notiaggregate.db.DbManager
 import yj.song.notiaggregate.model.DBEntityWrapper
 import yj.song.notiaggregate.util.AndroidUtil
+import yj.song.notiaggregate.util.NLog
 
 class NotiSettingActivity : AppCompatActivity() {
     var appAdapter: NonSystemAppAdapter? = null
+
 
     companion object {
         fun start(context: Context) {
@@ -37,13 +40,17 @@ class NotiSettingActivity : AppCompatActivity() {
         toolBar.setNavigationOnClickListener { finish() }
     }
 
-    private fun loadApps() {
-        val installApps = AndroidUtil.getInstallApps()
-        val dbApps = DbManager.getInstance().getAppDao()?.loadAll()
-
-        appAdapter?.installApps = DBEntityWrapper.compareInterrpetAppInfo(dbApps = dbApps, installApps = installApps)
-        GlobalScope.launch {
-
+    fun loadApps() {
+        GlobalScope.launch(Dispatchers.IO) {
+            val installApps = AndroidUtil.getInstallApps()
+            val dbApps = DbManager.getInstance().getAppDao()?.loadAll()
+            val needApps = DBEntityWrapper.compareInterrpetAppInfo(dbApps = dbApps, installApps = installApps)
+            GlobalScope.launch(Dispatchers.Main) {
+                appAdapter?.installApps = needApps
+            }
         }
+
     }
+
+
 }
