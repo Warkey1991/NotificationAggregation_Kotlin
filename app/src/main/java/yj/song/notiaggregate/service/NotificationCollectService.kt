@@ -7,6 +7,7 @@ import android.service.notification.StatusBarNotification
 import yj.song.notiaggregate.manager.GlobalSingleManager
 import yj.song.notiaggregate.manager.NotificationFuncManager
 import yj.song.notiaggregate.model.DBEntityWrapper
+import yj.song.notiaggregate.util.AppUtil
 import yj.song.notiaggregate.util.NLog
 
 /**
@@ -24,16 +25,18 @@ class NotificationCollectService : NotificationListenerService() {
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         super.onNotificationPosted(sbn)
 
-        // 监听到通知，如果包含在截取列表中的应用，就截取通知，否则，不操作
-        if (GlobalSingleManager.instance.checkIfNeedInterrupt(sbn?.packageName)) {
-            interceptNotification(sbn)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                cancelNotification(sbn?.key)
-            } else {
-                cancelNotification(sbn?.packageName, sbn?.tag, if (sbn?.id == null) 0 else sbn?.id)
-            }
+        if (AppUtil.isOpenNotiAggregate()) {
+            // 监听到通知，如果包含在截取列表中的应用，就截取通知，否则，不操作
+            if (GlobalSingleManager.instance.checkIfNeedInterrupt(sbn?.packageName)) {
+                interceptNotification(sbn)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    cancelNotification(sbn?.key)
+                } else {
+                    cancelNotification(sbn?.packageName, sbn?.tag, if (sbn?.id == null) 0 else sbn?.id)
+                }
 
-            NotificationFuncManager.instance.showPermanentNotification(GlobalSingleManager.instance.notificationBeans!!)
+                NotificationFuncManager.instance.showPermanentNotification(GlobalSingleManager.instance.notificationBeans!!)
+            }
         }
         NLog.e(TAG, "onNotificationPosted")
     }

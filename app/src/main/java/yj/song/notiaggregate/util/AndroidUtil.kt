@@ -153,4 +153,6 @@ object AndroidUtil {
         val scale = context.resources.displayMetrics.density
         return (pxValue / scale + 0.5f).toInt()
     }
+
+
 }

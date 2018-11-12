@@ -58,7 +58,7 @@ class NotificationFuncManager private constructor() {
         intent.putExtra("NotificationMng", "clean")
         intent.putExtra("source", "notification")
         val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
-        val notification = permanentBuilder!!.setSmallIcon(R.mipmap.ic_launcher)
+        val notification = permanentBuilder!!.setSmallIcon(R.mipmap.icon_noti_bar)
                 .setWhen(System.currentTimeMillis())//通知的时间
                 .setAutoCancel(false)//点击后消失
                 .setContentIntent(pendingIntent)//设置意图
@@ -69,6 +69,10 @@ class NotificationFuncManager private constructor() {
             notificationManager?.notify(0x11, notification)//显示通知
         } catch (ignored: Exception) {
         }
+    }
+
+    fun closePermanentNotification() {
+        notificationManager?.cancel(0x11)
     }
 
     private fun updateRemoteViews(context: Context, mNotificationEntityList: List<NotificationBean>?): RemoteViews? {

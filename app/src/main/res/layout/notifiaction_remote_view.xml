@@ -12,10 +12,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="7dp"
-        android:layout_marginStart="7dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher" />
+        android:layout_marginLeft="10dp"
+        android:src="@mipmap/icon_noti_bar" />
 
     <Button
         android:id="@+id/remote_view_button"
