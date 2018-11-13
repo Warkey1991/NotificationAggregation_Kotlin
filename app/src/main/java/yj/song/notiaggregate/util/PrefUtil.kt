@@ -28,8 +28,8 @@ object PrefUtil {
         editor.apply()
     }
 
-    fun getBoolean(key: String): Boolean {
+    fun getBoolean(key: String, value: Boolean = false): Boolean {
         val pref = App.instance.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        return pref.getBoolean(key, false)
+        return pref.getBoolean(key, value)
     }
 }

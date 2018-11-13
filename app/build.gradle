@@ -14,10 +14,20 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        releaseSignConfig {
+            keyAlias 'noti'
+            keyPassword 'noti123'
+            storeFile file('noti_clean.jks')
+            storePassword 'noti123'
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.releaseSignConfig
         }
     }
     compileOptions {

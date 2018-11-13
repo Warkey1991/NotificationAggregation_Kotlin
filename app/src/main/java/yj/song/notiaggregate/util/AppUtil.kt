@@ -7,6 +7,6 @@ import yj.song.notiaggregate.Constant
  */
 object AppUtil {
     fun isOpenNotiAggregate(): Boolean {
-        return PrefUtil.getBoolean(Constant.NOTI_OPEN)
+        return PrefUtil.getBoolean(Constant.NOTI_OPEN, true)
     }
 }

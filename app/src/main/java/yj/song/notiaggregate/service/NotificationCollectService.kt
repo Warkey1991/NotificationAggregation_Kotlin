@@ -67,6 +67,7 @@ class NotificationCollectService : NotificationListenerService() {
     private fun doConnected() {
         val notifications = activeNotifications
         for (n in notifications) {
+            onNotificationPosted(n)
             NLog.e(TAG, n.packageName)
         }
     }

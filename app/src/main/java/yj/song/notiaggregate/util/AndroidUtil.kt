@@ -99,7 +99,7 @@ object AndroidUtil {
         }
     }
 
-    fun getDrawableFromIconFile(pkgName: String): Bitmap {
+    fun getDrawableFromIconFile(pkgName: String): Bitmap? {
         val directory = App.instance.getDir("icon", Context.MODE_PRIVATE)
         var needFilePath = ""
         if (directory.exists() && directory.isDirectory) {
@@ -114,7 +114,7 @@ object AndroidUtil {
                 }
             }
         }
-        return BitmapFactory.decodeFile(needFilePath)
+        return if (needFilePath == null) null else BitmapFactory.decodeFile(needFilePath)
     }
 
 
